@@ -125,23 +125,6 @@ class PredictionCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              if (leagueLogo != null && leagueName != null)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                      leagueLogo!,
-                      width: 48,
-                      height: 48,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      leagueName!,
-                      style: TextStyle(fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
