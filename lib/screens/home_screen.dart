@@ -119,6 +119,7 @@ class PredictionCard extends StatelessWidget {
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: Colors.green, width: 1.5), // Green border
         ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),

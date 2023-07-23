@@ -15,16 +15,28 @@ class SplashScreen extends StatelessWidget {
               width: 190,
               height: 190,
             ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
+              style: ElevatedButton.styleFrom(
+                primary:
+                    Colors.lightGreen, // Set light green color for the button
+                minimumSize: Size(200, 50), // Set fixed width and height
+              ),
               child: Text('Log In'),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/signup');
               },
+              style: ElevatedButton.styleFrom(
+                primary:
+                    Colors.lightGreen, // Set light green color for the button
+                minimumSize: Size(200, 50), // Set fixed width and height
+              ),
               child: Text('Sign Up'),
             ),
           ],
