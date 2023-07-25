@@ -38,7 +38,6 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
       if (response.statusCode == 200) {
         setState(() {
           _apiData = jsonDecode(response.body);
-          _apiData = _apiData![0];
         });
       } else {
         // Handle error if API call fails
@@ -65,10 +64,28 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _apiData != null
-                ? FixtureCard(
-                    date: _apiData!['response']['fixture']['date'],
-                    venueName: _apiData!['response']['venue']['name'],
-                    venueCity: _apiData!['response']['venue']['city'],
+                ? Column(
+                    children: [
+                      TeamsCard(
+                        homeTeamLogo: widget.fixtureData['teams']['home']
+                            ['logo'],
+                        homeTeamName: widget.fixtureData['teams']['home']
+                            ['name'],
+                        awayTeamLogo: widget.fixtureData['teams']['away']
+                            ['logo'],
+                        awayTeamName: widget.fixtureData['teams']['away']
+                            ['name'],
+                        advice: widget.fixtureData['predictions']['advice'],
+                      ),
+                      SizedBox(height: 20),
+                      FixtureCard(
+                        date: _apiData!['response'][0]['fixture']['date'],
+                        venueName: _apiData!['response'][0]['fixture']['venue']
+                            ['name'],
+                        venueCity: _apiData!['response'][0]['fixture']['venue']
+                            ['city'],
+                      ),
+                    ],
                   )
                 : CircularProgressIndicator(),
             SizedBox(height: 20),
@@ -216,6 +233,76 @@ class FixtureCard extends StatelessWidget {
             '$venueName, $venueCity' ?? 'N/A',
             style: TextStyle(fontSize: 14, color: Colors.black),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class TeamsCard extends StatelessWidget {
+  final String? homeTeamLogo;
+  final String? homeTeamName;
+  final String? awayTeamLogo;
+  final String? awayTeamName;
+  final String? advice;
+
+  TeamsCard({
+    this.homeTeamLogo,
+    this.homeTeamName,
+    this.awayTeamLogo,
+    this.awayTeamName,
+    this.advice,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (homeTeamLogo != null)
+                Image.network(
+                  homeTeamLogo!,
+                  width: 48,
+                  height: 48,
+                ),
+              SizedBox(width: 10),
+              Text(
+                '$homeTeamName vs $awayTeamName',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(width: 10),
+              if (awayTeamLogo != null)
+                Image.network(
+                  awayTeamLogo!,
+                  width: 48,
+                  height: 48,
+                ),
+            ],
+          ),
+          SizedBox(height: 10),
+          if (advice != null)
+            Text(
+              advice!,
+              style: TextStyle(fontSize: 14),
+              textAlign: TextAlign.center,
+            ),
         ],
       ),
     );
