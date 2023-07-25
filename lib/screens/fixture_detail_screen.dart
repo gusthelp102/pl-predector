@@ -146,7 +146,6 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
       // Create a data map to store the prediction details
       final Map<String, dynamic> predictionData = {
         'userId': _auth.currentUser!.uid,
-        'fixtureId': widget.fixtureData['fixture']['id'],
         'leagueName': widget.fixtureData['league']['name'],
         'homeTeamName': widget.fixtureData['teams']['home']['name'],
         'awayTeamName': widget.fixtureData['teams']['away']['name'],
