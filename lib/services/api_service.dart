@@ -27,7 +27,7 @@ class ApiService {
         final response = await http.get(url, headers: headers);
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
-          allPredictions.add(data['response']);
+          allPredictions.add(data);
         } else {
           throw Exception(
               'Failed to fetch predictions for fixture ID $fixtureId');

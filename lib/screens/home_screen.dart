@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: _predictions.length,
                 itemBuilder: (context, index) {
                   var prediction = _predictions[index];
-                  prediction = prediction[0];
+                  prediction = prediction;
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -76,13 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: PredictionCard(
-                      leagueLogo: prediction['league']['logo'],
-                      leagueName: prediction['league']['name'],
-                      homeTeamLogo: prediction['teams']['home']['logo'],
-                      homeTeamName: prediction['teams']['home']['name'],
-                      awayTeamLogo: prediction['teams']['away']['logo'],
-                      awayTeamName: prediction['teams']['away']['name'],
-                      advice: prediction['predictions']['advice'],
+                      leagueLogo: prediction['response'][0]['league']['logo'],
+                      leagueName: prediction['response'][0]['league']['name'],
+                      homeTeamLogo: prediction['response'][0]['teams']['home']
+                          ['logo'],
+                      homeTeamName: prediction['response'][0]['teams']['home']
+                          ['name'],
+                      awayTeamLogo: prediction['response'][0]['teams']['away']
+                          ['logo'],
+                      awayTeamName: prediction['response'][0]['teams']['away']
+                          ['name'],
+                      advice: prediction['response'][0]['predictions']
+                          ['advice'],
                     ),
                   );
                 },

@@ -21,13 +21,14 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchFixtureData('592141');
+    _fetchFixtureData();
   }
 
-  Future<void> _fetchFixtureData(String id) async {
+  Future<void> _fetchFixtureData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://api-football-v1.p.rapidapi.com/v3/fixtures?id=$id'),
+        Uri.parse(
+            'https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${widget.fixtureData['parameters']['fixture']}'),
         headers: {
           'X-RapidAPI-Key':
               '13c64b1909mshd0226621badc3dap10a2dcjsn2f557fb25460',
@@ -67,15 +68,16 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
                 ? Column(
                     children: [
                       TeamsCard(
-                        homeTeamLogo: widget.fixtureData['teams']['home']
-                            ['logo'],
-                        homeTeamName: widget.fixtureData['teams']['home']
-                            ['name'],
-                        awayTeamLogo: widget.fixtureData['teams']['away']
-                            ['logo'],
-                        awayTeamName: widget.fixtureData['teams']['away']
-                            ['name'],
-                        advice: widget.fixtureData['predictions']['advice'],
+                        homeTeamLogo: widget.fixtureData['response'][0]['teams']
+                            ['home']['logo'],
+                        homeTeamName: widget.fixtureData['response'][0]['teams']
+                            ['home']['name'],
+                        awayTeamLogo: widget.fixtureData['response'][0]['teams']
+                            ['away']['logo'],
+                        awayTeamName: widget.fixtureData['response'][0]['teams']
+                            ['away']['name'],
+                        advice: widget.fixtureData['response'][0]['predictions']
+                            ['advice'],
                       ),
                       SizedBox(height: 20),
                       FixtureCard(
@@ -98,12 +100,16 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
               },
               items: [
                 DropdownMenuItem(
-                  value: widget.fixtureData['teams']['home']['name'],
-                  child: Text(widget.fixtureData['teams']['home']['name']),
+                  value: widget.fixtureData['response'][0]['teams']['home']
+                      ['name'],
+                  child: Text(widget.fixtureData['response'][0]['teams']['home']
+                      ['name']),
                 ),
                 DropdownMenuItem(
-                  value: widget.fixtureData['teams']['away']['name'],
-                  child: Text(widget.fixtureData['teams']['away']['name']),
+                  value: widget.fixtureData['response'][0]['teams']['away']
+                      ['name'],
+                  child: Text(widget.fixtureData['response'][0]['teams']['away']
+                      ['name']),
                 ),
                 DropdownMenuItem(
                   value: 'Draw',
@@ -146,9 +152,11 @@ class _FixtureDetailScreenState extends State<FixtureDetailScreen> {
       // Create a data map to store the prediction details
       final Map<String, dynamic> predictionData = {
         'userId': _auth.currentUser!.uid,
-        'leagueName': widget.fixtureData['league']['name'],
-        'homeTeamName': widget.fixtureData['teams']['home']['name'],
-        'awayTeamName': widget.fixtureData['teams']['away']['name'],
+        'leagueName': widget.fixtureData['response'][0]['league']['name'],
+        'homeTeamName': widget.fixtureData['response'][0]['teams']['home']
+            ['name'],
+        'awayTeamName': widget.fixtureData['response'][0]['teams']['away']
+            ['name'],
         'selectedWinner': selectedWinner,
         'timestamp':
             FieldValue.serverTimestamp(), // Store the current timestamp
